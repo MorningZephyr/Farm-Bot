@@ -8,12 +8,15 @@ def main():
     
     time.sleep(2)
     print(pyautogui.position())
+
+    # The script starts at top account
     top = True
+
+    # Information about the 2 accounts for the scripts
     topBattleLocation = ((342, 259, 202, 131))
     topPokemonLocation = ((598, 170, 194, 147))
     topBattleStart = "topBattle.png"
     topFightButton = ((382, 411))
-
 
     bottomBattleStart = "bottomBattle.png"
     bottomBattleLocation = ((341, 780, 204, 131))
@@ -37,26 +40,27 @@ def main():
 
                 
 def account(startPokemon, startPokeArea, pokeArea, fightButton):
-        count = 0
-        step = 0
-        while True:
-            battle_start = pyautogui.locateOnScreen(startPokemon, region=startPokeArea, confidence=0.9)
-            if battle_start == None:
-                move()
-                step += 1
-    
+    """This function determines which account the farm script is activated on"""
+    count = 0
+    step = 0
+    while True:
+        battle_start = pyautogui.locateOnScreen(startPokemon, region=startPokeArea, confidence=0.9)
+        if battle_start == None:
+            move()
+            step += 1
+
+        else:
+            pdi.keyUp("d")
+            time.sleep(1.8)
+            if identify(pokeArea):
+                attack(fightButton)
+                count = 0
+                break
             else:
-                pdi.keyUp("d")
-                time.sleep(1.8)
-                if identify(pokeArea):
-                    attack(fightButton)
-                    count = 0
-                    break
-                else:
-                    count +=1
-            print(count, step)
-            if count >= 3 or step >= 30:
-                    sys.exit("exit")
+                count +=1
+        print(count, step)
+        if count >= 3 or step >= 30:
+                sys.exit("exit")
 
 
 
